@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"nwpu-soccer-robot-base-slam-group.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Learn-SLAM0. 关于本项目&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  本项目由西北工业大学足球机器人基地定位技术组发起，主要负责人为刘权祥。 目前本项目还在发展阶段，有一些教程尚未完工。 我们制作这个教程是为了基地更好并且更规范的招新培训，当然也希望能够帮助到对定位技术，特别是SLAM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="notes-0">
+<meta property="og:url" content="https://nwpu-soccer-robot-base-slam-group.github.io/2021/06/18/notes-0/index.html">
+<meta property="og:site_name" content="西北工业大学足球机器人基地定位技术组博客">
+<meta property="og:description" content="Learn-SLAM0. 关于本项目&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  本项目由西北工业大学足球机器人基地定位技术组发起，主要负责人为刘权祥。 目前本项目还在发展阶段，有一些教程尚未完工。 我们制作这个教程是为了基地更好并且更规范的招新培训，当然也希望能够帮助到对定位技术，特别是SLAM">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nwpu-soccer-robot-base-slam-group.github.io/images/NWPU.png">
+<meta property="og:image" content="https://nwpu-soccer-robot-base-slam-group.github.io/images/SRB.png">
+<meta property="article:published_time" content="2021-06-18T12:45:23.000Z">
+<meta property="article:modified_time" content="2022-04-18T12:48:24.101Z">
+<meta property="article:author" content="西北工业大学足球机器人基地定位技术组">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://nwpu-soccer-robot-base-slam-group.github.io/images/NWPU.png">
+
+<link rel="canonical" href="https://nwpu-soccer-robot-base-slam-group.github.io/2021/06/18/notes-0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>notes-0 | 西北工业大学足球机器人基地定位技术组博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">西北工业大学足球机器人基地定位技术组博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">定位技术组博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://nwpu-soccer-robot-base-slam-group.github.io/2021/06/18/notes-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="西北工业大学足球机器人基地定位技术组">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="西北工业大学足球机器人基地定位技术组博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          notes-0
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-18 20:45:23" itemprop="dateCreated datePublished" datetime="2021-06-18T20:45:23+08:00">2021-06-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-18 20:48:24" itemprop="dateModified" datetime="2022-04-18T20:48:24+08:00">2022-04-18</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Learn-SLAM"><a href="#Learn-SLAM" class="headerlink" title="Learn-SLAM"></a>Learn-SLAM</h1><h2 id="0-关于本项目"><a href="#0-关于本项目" class="headerlink" title="0. 关于本项目"></a>0. 关于本项目</h2><div align=center><img width="150" height="150" src="/images/NWPU.png"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width="150" height="150" src="/images/SRB.png"/></div>
+
+<p>本项目由西北工业大学足球机器人基地定位技术组发起，主要负责人为刘权祥。</p>
+<p>目前本项目还在发展阶段，有一些教程尚未完工。</p>
+<p>我们制作这个教程是为了基地更好并且更规范的招新培训，当然也希望能够帮助到对定位技术，特别是SLAM技术感兴趣的同学。整个教程所介绍的知识都偏向于基础和应用，没有对理论部分有太多的解读，我们希望通过整个教程能够让队员对SLAM有一个整体的认知，并且快速的掌握基本的定位技术，从而运用到基地的比赛或者项目中。</p>
+<h2 id="1-什么是SLAM？"><a href="#1-什么是SLAM？" class="headerlink" title="1. 什么是SLAM？"></a>1. 什么是SLAM？</h2><p><strong>SLAM是同步定位与地图构建(Simultaneous Localization And Mapping)的缩写</strong>，最早由Hugh Durrant-Whyte 和 John J.Leonard提出。SLAM主要用于解决移动机器人在未知环境中运行时定位导航与地图构建的问题。</p>
+<p><strong>SLAM主要解决的是以下两个问题：</strong></p>
+<p>1、我在哪里？也就是机器人在工作过程中要知道自己的具体位置。对应的术语叫：**定位（Localization)**。</p>
+<p>2、我周围的环境是什么样子？也就是机器人需要知道整个空间的地面结构信息。对应的术语叫：**建图(Mapping)**。</p>
+<h2 id="2-为什么要学习SLAM？"><a href="#2-为什么要学习SLAM？" class="headerlink" title="2. 为什么要学习SLAM？"></a>2. 为什么要学习SLAM？</h2><p>从行业需求来看，随着机器人、AR、自动驾驶的爆发式增长，SLAM方向的需求量还在上升，而相关从业者相对较少。</p>
+<p>目前对SLAM技术需求强烈的公司包括：互联网公司如百度、腾讯、阿里、京东等，计算机视觉算法公司如旷世、虹软、商汤等，自动驾驶创业公司如图森、momenta、景驰、驭势、滴滴及各大汽车厂商等，无人机&#x2F;机器人公司如大疆、思岚、高仙等，AR移动终端应用相关公司如三星、华为、悉见等。其中大多企业以激光SLAM为主，毕竟激光SLAM是当下最稳定、可靠的定位导航方案，而视觉SLAM将是未来主流研究方向，不过未来两者融合也将成为一种趋势，采用多传感器融合能做到取长补短，为市场打造出更好用的定位导航解决方案，进一步实现机器人的智能化进程。</p>
+<p>总体来说，目前国内SLAM技术无论是在技术层面还是应用层面仍处于发展阶段，未来，随着消费刺激及产业链不断发展，SLAM技术将会有一片更为广阔的市场。</p>
+<h2 id="3-如何学习SLAM？"><a href="#3-如何学习SLAM？" class="headerlink" title="3. 如何学习SLAM？"></a>3. 如何学习SLAM？</h2><p>见	<a href="./docs/%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF%E5%9F%B9%E8%AE%AD%E5%A4%A7%E7%BA%B2.md">定位技术培训大纲</a></p>
+<h2 id="4-学习建议"><a href="#4-学习建议" class="headerlink" title="4. 学习建议"></a>4. 学习建议</h2><ol>
+<li>SLAM对编程能力要求较高，建议先锻炼编程能力，把基础部分全部掌握好，之后无论是阅读代码还是写代码都有帮助。</li>
+<li>SLAM是一个非常复杂的软件系统，包含了大量的数学、编程知识、编程技巧的系统，<strong>需要先建立感性认识，然后熟悉各个技术模块，然后在有一点理解的基础上尝试集成、修改、改进等等</strong>。可以先把一些开源SLAM方案运行起来，跑起来看一看效果，有一个大概的认知；之后再顺着这个认知学习下去，一步一步来。</li>
+<li>由于SLAM包含了大量的数学知识、编程知识，因此强烈建议采用广度优先的方法来学习，即首先建立整体的感性认识；然后针对每一个技术模块了解其目的、意义、调用的方法等等；然后通过整合的方式去理解整体的衔接、组织。</li>
+</ol>
+<h2 id="5-参考资料"><a href="#5-参考资料" class="headerlink" title="5. 参考资料"></a>5. 参考资料</h2><h3 id="5-1-SLAM实现"><a href="#5-1-SLAM实现" class="headerlink" title="5.1 SLAM实现"></a>5.1 SLAM实现</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/HKUST-Aerial-Robotics/VINS-Fusion">VINS-Fusion</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/pi-lab/pi-slam">PI-SLAM</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/raulmur/ORB_SLAM2">ORB-SLAM2</a></li>
+</ul>
+<h3 id="5-2-教程"><a href="#5-2-教程" class="headerlink" title="5.2 教程"></a>5.2 教程</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/pi-lab/learn_slam">一步一步学SLAM</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/electech6/article/details/82597882">从零开始一起学习SLAM</a></li>
+</ul>
+<h2 id="6-培训方案"><a href="#6-培训方案" class="headerlink" title="6. 培训方案"></a>6. 培训方案</h2><ol>
+<li><strong>各个项目组应该统一培训</strong>，这样安排起来更加方便，也有利于以后基地定位技术的发展</li>
+<li><strong>明确基地定位技术的范畴</strong>，不应该只包括SLAM部分，把定位技术组培训的大纲基本的弄起来</li>
+<li><strong>网课学习为主，要求有一定的反馈机制，比如：答辩、报告、代码实现等</strong></li>
+<li><strong>答疑讲解为辅，形式包括但不限于：线上线下会议、群聊等</strong></li>
+<li>尝试跨组合作的小任务（但同方向的可能合作的范围很小或者比较难合作？）</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/06/28/notes-1/" rel="next" title="定位技术培训大纲">
+      定位技术培训大纲 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Learn-SLAM"><span class="nav-number">1.</span> <span class="nav-text">Learn-SLAM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-%E5%85%B3%E4%BA%8E%E6%9C%AC%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.1.</span> <span class="nav-text">0. 关于本项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AFSLAM%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">1. 什么是SLAM？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AD%A6%E4%B9%A0SLAM%EF%BC%9F"><span class="nav-number">1.3.</span> <span class="nav-text">2. 为什么要学习SLAM？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0SLAM%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">3. 如何学习SLAM？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%AD%A6%E4%B9%A0%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.5.</span> <span class="nav-text">4. 学习建议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">1.6.</span> <span class="nav-text">5. 参考资料</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-SLAM%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.6.1.</span> <span class="nav-text">5.1 SLAM实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E6%95%99%E7%A8%8B"><span class="nav-number">1.6.2.</span> <span class="nav-text">5.2 教程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%9F%B9%E8%AE%AD%E6%96%B9%E6%A1%88"><span class="nav-number">1.7.</span> <span class="nav-text">6. 培训方案</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">西北工业大学足球机器人基地定位技术组</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">西北工业大学足球机器人基地定位技术组</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
